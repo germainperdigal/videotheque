@@ -1,13 +1,37 @@
 package com.videolibrary.basis;
 
 public class Customer {
-    public String fname;
-    public String lname;
-    public String email;
+    private String fname;
+    private String lname;
+    private String email;
 
-    public void Customer(String fname, String lname, String email) {
+    public Customer(String fname, String lname, String email) {
         this.fname = fname;
         this.lname = lname;
+        this.email = email;
+    }
+
+    public String getFname() {
+        return this.fname;
+    }
+
+    public String getLname() {
+        return this.lname;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
