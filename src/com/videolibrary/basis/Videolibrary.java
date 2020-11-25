@@ -7,14 +7,14 @@ public class Videolibrary {
     private Movie[] movies;
     private Customer[] customers;
 
-    Videolibrary(String title) {
+    public Videolibrary(String title) {
         this.title = title;
     }
 
     public void showPrincipalMenu() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("\n ----- Garage " + this.title + " - Menu principal ----- \n");
+        System.out.println("\n ----- " + this.title + " - Menu principal ----- \n");
         System.out.println("(1) Accéder au menu Films");
         System.out.println("(2) Accéder au menu Clients");
 
@@ -36,7 +36,7 @@ public class Videolibrary {
     public void showMoviesMenu() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("\n ----- Garage " + this.title + " - Menu Films ----- \n");
+        System.out.println("\n ----- " + this.title + " - Menu Films ----- \n");
         System.out.println("(0) Retourner au menu principal");
         System.out.println("(1) Voir tous les films (par support)");
         System.out.println("(2) Voir les films disponibles");
@@ -53,13 +53,13 @@ public class Videolibrary {
                 this.showMoviesBySupport();
                 break;
             case 2 :
-                this.showAvailableMovies();
+                //this.showAvailableMovies();
                 break;
             case 3 :
-                this.showRentedMovies();
+                //this.showRentedMovies();
                 break;
             case 4 :
-                this.addMovie();
+                //this.addMovie();
                 break;
             default :
                 System.out.println("Entrée invalide. \n");
@@ -70,7 +70,7 @@ public class Videolibrary {
     public void showCustomersMenu() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("\n ----- Garage " + this.title + " - Menu Clients ----- \n");
+        System.out.println("\n ----- " + this.title + " - Menu Clients ----- \n");
         System.out.println("(0) Retourner au menu principal");
         System.out.println("(1) Accéder au fichier clients");
         System.out.println("(2) Ajouter un client");
@@ -82,10 +82,10 @@ public class Videolibrary {
                 this.showPrincipalMenu();
                 break;
             case 1 :
-                this.showCustomers();
+                //this.showCustomers();
                 break;
             case 2 :
-                this.addCustomer();
+                //this.addCustomer();
                 break;
             default :
                 System.out.println("Entrée invalide. \n");
@@ -97,7 +97,7 @@ public class Videolibrary {
         System.out.println("\n Tous les films : \n");
         int i = 1;
         for (Movie movie: movies) {
-            System.out.println("(" + i + ") " + movie.getTitle + " | " + movie.getSupport);
+            //System.out.println("(" + i + ") " + movie.getTitle + " | " + movie.getSupport);
             i++;
         }
         Scanner sc = new Scanner(System.in);
@@ -109,7 +109,7 @@ public class Videolibrary {
         if(opr == 0) {
             this.showMoviesBySupport();
         } else {
-            this.showMovie(i--);
+            //this.showMovie(i--);
         }
     }
 }
