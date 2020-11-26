@@ -35,8 +35,8 @@ public class Customer {
         this.email = email;
     }
 
-    public void getCustomer() {
-        System.out.println("--- Client "+ this.fname +" "+this.lname+" ---");
+    public void getCustomer(int index) {
+        System.out.println("--- Client "+index+" : "+ this.fname +" "+this.lname+" ---");
         System.out.println("Prénom : "+this.fname);
         System.out.println("Nom : "+this.lname);
         System.out.println("Adresse e-mail : "+this.email);
