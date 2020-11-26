@@ -1,4 +1,5 @@
 package com.videolibrary.basis;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,7 @@ public class Videolibrary {
 
     public void showPrincipalMenu() {
         Scanner sc = new Scanner(System.in);
-
+        this.loadFromFile();
         System.out.println("\n ----- " + this.title + " - Menu principal ----- \n");
         System.out.println("(1) Accéder au menu Films");
         System.out.println("(2) Accéder au menu Clients");
@@ -116,7 +117,8 @@ public class Videolibrary {
         System.out.println("\n ----- " + this.title + " - Menu Clients ----- \n");
         System.out.println("(0) Retourner au menu principal");
         System.out.println("(1) Accéder au fichier clients");
-        System.out.println("(2) Ajouter un client");
+        System.out.println("(2) Voir les films loués par un client");
+        System.out.println("(3) Ajouter un client");
 
         int opr = sc.nextInt();
 
@@ -129,6 +131,9 @@ public class Videolibrary {
                 this.showCustomersMenu();
                 break;
             case 2 :
+                this.getRentedByCustomer();
+                break;
+            case 3 :
                 this.addCustomer();
                 break;
             default :
@@ -295,6 +300,62 @@ public class Videolibrary {
         }
         if(i == 0) {
             System.out.println("Aucun film à supprimer.");
+        }
+
+    }
+
+    public void getRentedByCustomer() {
+        Scanner sc = new Scanner(System.in);
+        int idCustomer = 0, idFilm = 0;
+        boolean typeError = true;
+        this.showCustomers();
+        do
+        {
+            System.out.println("Identifiant du client: ");
+            try
+            {
+                idCustomer = sc.nextInt();
+                typeError = false;
+            }
+            catch (InputMismatchException error)
+            {
+                System.out.println("Merci de rentrer l'identifiant du client.");
+                sc.nextLine();
+            }
+        } while (typeError);
+
+        int i = 0;
+        for(Movie movie : movieList) {
+            if(customerList.get(idCustomer-1) == movie.getIsRented()) {
+                movie.getMovie(i);
+                i++;
+            }
+        }
+
+        this.showPrincipalMenu();
+    }
+
+    public void loadFromFile() {
+        File file = new File("/Users/germainperdigal/Desktop/Videotheque/src/maliste.txt");
+
+        try(BufferedReader br = new BufferedReader(new FileReader(file))){
+            String line;
+            while((line = br.readLine())!=null){
+                Date date = new Date();
+                String[] Film = line.split(", ");
+                try {
+                    date = new SimpleDateFormat("dd/MM/yyyy").parse(Film[2]);
+                }
+                catch (ParseException e) {
+                    System.out.println("Format de date non compatible.");
+                }
+                this.movieList.add(new Movie(Film[0], Film[1], date, Film[3], Film[4]));
+                this.showMovies(false);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
