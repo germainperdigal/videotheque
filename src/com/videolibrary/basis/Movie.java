@@ -1,8 +1,9 @@
 package com.videolibrary.basis;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Movie {
+public class Movie implements Serializable {
     private String title;
     private String principalActor;
     private Date date;

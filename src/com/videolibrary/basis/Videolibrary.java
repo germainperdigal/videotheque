@@ -45,6 +45,7 @@ public class Videolibrary {
         System.out.println("(2) Réserver un film");
         System.out.println("(3) Ajouter un film");
         System.out.println("(4) Supprimer un film");
+        System.out.println("(5) Sauvegarder dans back-up");
 
         int opr = sc.nextInt();
 
@@ -65,6 +66,10 @@ public class Videolibrary {
                 break;
             case 4 :
                 this.deleteMovie();
+                this.showMoviesMenu();
+                break;
+            case 5 :
+                this.saveToFile();
                 this.showMoviesMenu();
                 break;
             default :
@@ -232,6 +237,7 @@ public class Videolibrary {
             date = new SimpleDateFormat("dd/MM/yyyy").parse(_date);
         }
         catch (ParseException e) {
+            _date = " ";
             System.out.println("Format de date non compatible.");
         }
         System.out.println("Réalisateur : ");
@@ -239,6 +245,7 @@ public class Videolibrary {
         System.out.println("Support : ");
         String support = sc.nextLine();
         this.movieList.add(new Movie(title, principalActor, date, realisator, support));
+        this.addToFile(title, principalActor, _date, realisator, support);
     }
 
     public void rentMovie() {
@@ -335,11 +342,43 @@ public class Videolibrary {
         this.showPrincipalMenu();
     }
 
+    public void addToFile(String title, String actor, String date, String realisator, String support) {
+        File file = new File("/Users/germainperdigal/Desktop/Videotheque/src/maliste.txt");
+
+        try(FileWriter fw = new FileWriter(file, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.append(title+", "+actor+", "+date+", "+realisator+", "+support);
+        } catch (IOException e) {
+            e.getMessage();
+        }
+    }
+
+    public void saveToFile() {
+    ObjectOutputStream oos;
+    try {
+        FileOutputStream fos = new FileOutputStream("/Users/germainperdigal/Desktop/Videotheque/src/backup.txt");
+        try {
+            oos = new ObjectOutputStream(fos);
+            for(Movie movie : movieList) {
+                oos.writeObject(movie);
+            }
+            oos.close();
+        } catch (IOException e) {
+            System.out.println("Problème d'éciture;");
+        }
+    } catch (FileNotFoundException e) {
+        System.out.println("Impossible, le fichier de sauvegarde n'existe pas");
+    }
+    }
+
     public void loadFromFile() {
         File file = new File("/Users/germainperdigal/Desktop/Videotheque/src/maliste.txt");
 
         try(BufferedReader br = new BufferedReader(new FileReader(file))){
             String line;
+            int i = 0;
             while((line = br.readLine())!=null){
                 Date date = new Date();
                 String[] Film = line.split(", ");
@@ -350,8 +389,9 @@ public class Videolibrary {
                     System.out.println("Format de date non compatible.");
                 }
                 this.movieList.add(new Movie(Film[0], Film[1], date, Film[3], Film[4]));
-                this.showMovies(false);
+                i++;
             }
+            System.out.println(i + " films ajoutés à l'initialisation");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
